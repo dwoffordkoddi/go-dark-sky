@@ -1,0 +1,47 @@
+version: 2.1
+
+jobs:
+  create-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: Platform
+        type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+          aws-region: ${AWS_REGION}
+      #Below is optional after we create them initially, but good for idempotent results.
+      - kubernetes/create-or-update-resource:
+          resource-file-path: .circleci/kube/deployment.yaml
+          resource-name: deployment/koddi-framework-starter
+      - kubernetes/create-or-update-resource:
+          resource-file-path: .circleci/kube/service.yaml
+          resource-name: service/koddi-framework-starter-svc
+
+orbs:
+  aws-ecr: circleci/aws-ecr@6.7.1
+  aws-eks: circleci/aws-eks@0.2.3
+  kubernetes: circleci/kubernetes@0.11.0
+
+workflows:
+  build-push-and-deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          repo: "koddi-framework-starter"
+          tag: "${CIRCLE_SHA1}"
+          extra-build-args: "--build-arg ACCESS_TOKEN_USR=${GH_USER} --build-arg ACCESS_TOKEN_PWD=${GH_ACCESS_TOKEN}"
+      - create-deployment:
+          cluster-name: Platform
+          requires:
+            - aws-ecr/build-and-push-image
+      - aws-eks/update-container-image:
+          cluster-name: Platform
+          container-image-updates: "go-api=${AWS_ECR_ACCOUNT_URL}/koddi-framework-starter:${CIRCLE_SHA1}"
+          record: true
+          resource-name: "deployment/koddi-framework-starter"
+          aws-region: ${AWS_REGION}
+          requires:
+            - create-deployment

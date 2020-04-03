@@ -1,0 +1,4 @@
+#Use this File to add your own Configurations for your own Repo - Please don't add Configurations to the local.yaml used for framework
+#Make sure to add the new setting to service.go file to make sure its loaded.
+app:
+  version: "1.0"

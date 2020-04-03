@@ -1,0 +1,27 @@
+version: 1.0
+serverBindAddress: 0.0.0.0:8080
+kafka:
+  enabled: true
+  autocreatetopics: true
+  brokers:
+    - b-1.dtebvv4w6dms2pwlf2t0nflfs.c3.kafka.us-west-2.amazonaws.com:9092
+    - b-2.dtebvv4w6dms2pwlf2t0nflfs.c3.kafka.us-west-2.amazonaws.com:9092
+    - b-3.dtebvv4w6dms2pwlf2t0nflfs.c3.kafka.us-west-2.amazonaws.com:9092
+  clientID: framework-<yourServiceNameHere>-QA
+  maxRetries: 24
+  requiredAcks: 1
+monitoring:
+  dataDog:
+    enabled: true
+    namespace: <yourServiceNameHere>
+    sampleRate: 1.0
+logging:
+  format: json
+  logLevel: debug
+event:
+  status:
+    topic: event.status
+  dedup:
+    duplicationIntervalSecs: 180
+    cullPeriod: 60
+

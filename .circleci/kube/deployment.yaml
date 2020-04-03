@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koddi-framework-starter
+  labels:
+    app: koddi-framework-starter
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: koddi-framework-starter
+  template:
+    metadata:
+      labels:
+        app: koddi-framework-starter
+    spec:
+      containers:
+      - name: go-api
+        image: 815599370552.dkr.ecr.us-east-1.amazonaws.com/koddi-framework-starter:latest
+        ports:
+        - containerPort: 8080

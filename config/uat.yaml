@@ -1,0 +1,21 @@
+version: 1.0
+serverBindAddress: 0.0.0.0:8080
+kafka:
+  enabled: true
+  autocreatetopics: true
+  brokers:
+    - b-1.7.kafka.us-west-2.amazonaws.com:9092
+    - b-2.7.kafka.us-west-2.amazonaws.com:9092
+    - b-3.7.kafka.us-west-2.amazonaws.com:9092
+  clientID: framework-<yourServiceNameHere>-UAT
+monitoring:
+  dataDog:
+    enabled: true
+    namespace: <yourServiceNameHere>
+logging:
+  format: json
+  logLevel: debug
+event:
+  status:
+    topic: event.status
+
