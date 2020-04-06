@@ -1,9 +1,8 @@
-module github.com/KoddiDev/koddi-framework-starter
+module go-dark-sky
 
 go 1.14
 
 require (
-	github.com/KoddiDev/koddi-datacontract v0.0.3
 	github.com/KoddiDev/koddi-framework v1.0.9
 	github.com/aerospike/aerospike-client-go v2.8.2+incompatible // indirect
 	github.com/apache/pulsar/pulsar-client-go v0.0.0-20200308092651-9fc51856a8c8 // indirect

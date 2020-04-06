@@ -8,11 +8,17 @@ import (
 )
 
 type ServiceConfig struct {
-	APP app `yaml:"app"`
+	APP     app     `yaml:"app"`
+	DarkSky DarkSky `yaml:"darkSky"`
 }
 
 type app struct {
 	Version string `yaml:"version"`
+}
+
+type DarkSky struct {
+	Url    string `yaml:"url"`
+	ApiKey string `yaml:"apiKey"`
 }
 
 var (
